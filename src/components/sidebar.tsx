@@ -39,7 +39,6 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import Logout from "./logout";
-import { motion } from "framer-motion";
 
 const SidebarLinks = [
   {
@@ -89,6 +88,15 @@ const SidebarLinks = [
 
 const Sidebar = () => {
   const pathName = usePathname();
+
+  function isActive(href: string) {
+    const isActive =
+      pathName === href ||
+      (href === "/dashboard/messages" &&
+        pathName.startsWith("/dashboard/messages"));
+    return isActive;
+  }
+
   return (
     <div className="flex h-full w-full flex-col items-end justify-center pe-10">
       <div className="flex h-full flex-col gap-4 pt-10">
@@ -98,29 +106,36 @@ const Sidebar = () => {
         >
           <p className="font-mono text-3xl font-bold text-foreground">Y</p>
         </Link>
-        {SidebarLinks.map((link) => (
-          <Link
-            key={link.title}
-            href={link.href}
-            className="me-4 flex items-center gap-4 rounded-lg p-4 text-foreground hover:bg-gray-100 dark:hover:bg-zinc-800/30"
-          >
-            {pathName === link.href ? (
-              <link.activeIcon className="size-6 text-zinc-500 dark:text-foreground" />
-            ) : (
-              <link.icon className="h-6 w-6 text-foreground/45 dark:text-foreground" />
-            )}
-            <span
-              className={cn(
-                "text-lg font-bold",
-                pathName === link.href
-                  ? "text-zinc-500 dark:text-foreground"
-                  : "text-foreground/45"
-              )}
+        {SidebarLinks.map((link) => {
+          const isActive =
+            pathName === link.href ||
+            (link.href === "/dashboard/messages" &&
+              pathName.startsWith("/dashboard/messages"));
+
+          return (
+            <Link
+              key={link.title}
+              href={link.href}
+              className="me-4 flex items-center gap-4 rounded-lg p-4 text-foreground hover:bg-gray-100 dark:hover:bg-zinc-800/30"
             >
-              {link.title}
-            </span>
-          </Link>
-        ))}
+              {isActive ? (
+                <link.activeIcon className="size-6 text-zinc-500 dark:text-foreground" />
+              ) : (
+                <link.icon className="h-6 w-6 text-foreground/45 dark:text-foreground" />
+              )}
+              <span
+                className={cn(
+                  "text-lg font-bold",
+                  isActive
+                    ? "text-zinc-500 dark:text-foreground"
+                    : "text-foreground/45"
+                )}
+              >
+                {link.title}
+              </span>
+            </Link>
+          );
+        })}
         <AlertDialog>
           <AlertDialogTrigger className="rounded-lg">
             <div className="w-full rounded-lg bg-primary py-3 text-lg font-semibold text-background hover:bg-primary/90 dark:text-foreground">

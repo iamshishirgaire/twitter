@@ -9,6 +9,7 @@ const config = {
     "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
+
   theme: {
     container: {
       center: true,
@@ -74,7 +75,32 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+
+    function ({ addUtilities }: { addUtilities: Function }) {
+      addUtilities({
+        ".custom-scrollbar": {
+          "scrollbar-width": "thin",
+          "scrollbar-color": "#888 ",
+        },
+        ".custom-scrollbar::-webkit-scrollbar": {
+          width: "12px",
+        },
+        ".custom-scrollbar::-webkit-scrollbar-track": {
+          background: "#fababab",
+          "border-radius": "6px",
+        },
+        ".custom-scrollbar::-webkit-scrollbar-thumb": {
+          background: "#888",
+          "border-radius": "6px",
+        },
+        ".custom-scrollbar::-webkit-scrollbar-thumb:hover": {
+          background: "#555",
+        },
+      });
+    },
+  ],
 } satisfies Config;
 
 export default config;

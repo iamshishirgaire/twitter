@@ -5,7 +5,6 @@ import { useAuthStore } from "@/store/auth.store";
 
 const ProfileTile = ({ border }: { border?: boolean }) => {
   const { user } = useAuthStore((state) => state);
-  console.log(user);
 
   if (!user) return null;
 
@@ -15,7 +14,7 @@ const ProfileTile = ({ border }: { border?: boolean }) => {
         "flex cursor-pointer items-center space-x-4",
         border
           ? "rounded-lg border border-border px-2 py-3 hover:bg-popover"
-          : "",
+          : ""
       )}
     >
       <Avatar>

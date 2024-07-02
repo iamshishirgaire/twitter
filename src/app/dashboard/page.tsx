@@ -1,11 +1,11 @@
 import AddPost from "@/app/dashboard/components/addPost";
 import Spacer from "@/components/spacer";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-
 import HomeNavBar from "./components/home-nav-bar";
-import Post from "./components/post";
+import Post from "./components/tweet";
 import RightSideBar from "./components/rightSidebar/rightSideBar";
 import MessageTile from "./messages/components/messageTile";
+import { TweetList } from "./components/tweetList";
 
 export default function Home() {
   return (
@@ -25,10 +25,7 @@ export default function Home() {
             <AddPost />
           </div>
           <div className="space-y-1">
-            <Post />
-            <Post />
-            <Post />
-            <Post />
+            <TweetList />
           </div>
         </div>
         <ScrollBar className="me-1 w-[1px]" />

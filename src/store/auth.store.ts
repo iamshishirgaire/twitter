@@ -20,6 +20,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         accessToken: string;
       }>("/auth/signin/google", { token });
       localStorage.setItem("accessToken", data.data.accessToken);
+
       const usr = await api.get<Users>("/auth/me");
       set({ user: usr.data });
       return true;
@@ -43,8 +44,15 @@ export const useAuthStore = create<AuthState>((set) => ({
   getCurrentUser: async () => {
     set({ loading: true });
     try {
+      const localData = localStorage.getItem("user");
+      if (localData) {
+        set({ user: JSON.parse(localData) });
+        set({ loading: false });
+        return JSON.parse(localData);
+      }
       const usr = await api.get<Users>("/auth/me");
       set({ user: usr.data });
+      localStorage.setItem("user", JSON.stringify(usr.data));
       set({ loading: false });
       return usr.data;
     } catch (error) {
