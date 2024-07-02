@@ -14,6 +14,7 @@ import { getTimeDifference } from "@/lib/utils";
 import { useQuery } from "react-query";
 import api from "@/lib/api";
 import Users from "@/lib/models/Users";
+import { BookmarkIcon } from "lucide-react";
 
 const Tweet = ({ tweet }: { tweet: Tweets }) => {
   return (
@@ -62,18 +63,40 @@ function TweetInfo({ tweet }: { tweet: Tweets }) {
             />
           );
         })}
-      <div className="mt-4 flex gap-2">
-        <Button variant="ghost" size="icon">
+      <div className="mt-4 flex justify-between gap-2">
+        <Button
+          className="flex items-center justify-center gap-2 text-gray-400 hover:bg-primary/10 hover:text-primary"
+          variant="ghost"
+        >
           <ChatBubbleBottomCenterIcon className="h-5 w-5" />
+          <p> 2</p>
         </Button>
-        <Button variant="ghost" size="icon">
+        <Button
+          className="flex items-center justify-center gap-2 text-gray-400 hover:bg-green-400/20 hover:text-green-400"
+          variant="ghost"
+        >
           <ArrowPathIcon className="h-5 w-5" />
+          <p> 2</p>
         </Button>
-        <Button variant="ghost" size="icon">
+        <Button
+          className="flex items-center justify-center gap-2 text-gray-400 hover:bg-red-400/20 hover:text-red-400"
+          variant="ghost"
+        >
           <HeartIcon className="h-5 w-5" />
+          <p> 2</p>
         </Button>
-        <Button variant="ghost" size="icon">
+        <Button
+          className="flex items-center justify-center gap-2 text-gray-400 hover:bg-yellow-400/20 hover:text-yellow-400"
+          variant="ghost"
+        >
           <ArrowUpOnSquareIcon className="h-5 w-5" />
+          <p> 2</p>
+        </Button>
+        <Button
+          className="flex items-center justify-center gap-2 text-gray-400 hover:bg-teal-400/20 hover:text-teal-400"
+          variant="ghost"
+        >
+          <BookmarkIcon className="h-5 w-5" />
         </Button>
       </div>
     </div>

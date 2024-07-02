@@ -13,14 +13,14 @@ export function TweetList() {
   });
   if (isError) {
     return (
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="mt-10 flex h-full w-full items-center justify-center">
         <p>Failed to fetch Posts</p>
       </div>
     );
   }
   if (isLoading) {
     return (
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="mt-10 flex h-full w-full items-center justify-center">
         <Spinner />
       </div>
     );
