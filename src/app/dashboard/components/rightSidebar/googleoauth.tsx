@@ -27,10 +27,12 @@ export const GoogleOauth = () => {
         type="standard"
         useOneTap
         onSuccess={async (e) => {
+          console.log(e);
           if (!e.credential) {
             return toast.error("Failed to login");
           }
           const res = await login(e.credential);
+
           if (res) {
             toast.success("Successfully logged in");
           } else {

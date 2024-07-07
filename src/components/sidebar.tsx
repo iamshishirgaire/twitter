@@ -21,7 +21,8 @@ import {
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import AddPost from "../app/dashboard/components/addPost";
+import AddPost from "../app/dashboard/components/addTweet";
+import Logout from "./logout";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -29,7 +30,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
-import { Button } from "./ui/button";
 import {
   Dialog,
   DialogClose,
@@ -38,7 +38,6 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "./ui/dialog";
-import Logout from "./logout";
 
 const SidebarLinks = [
   {
@@ -116,19 +115,19 @@ const Sidebar = () => {
             <Link
               key={link.title}
               href={link.href}
-              className="me-4 flex items-center gap-4 rounded-lg p-4 text-foreground hover:bg-gray-100 dark:hover:bg-zinc-800/30"
+              className="me-4 flex items-center gap-4 rounded-lg p-4 hover:bg-gray-100 dark:hover:bg-zinc-700/30"
             >
               {isActive ? (
-                <link.activeIcon className="size-6 text-zinc-500 dark:text-foreground" />
+                <link.activeIcon className="size-6 text-foreground" />
               ) : (
-                <link.icon className="h-6 w-6 text-foreground/45 dark:text-foreground" />
+                <link.icon className="h-6 w-6 text-gray-700 dark:text-gray-400" />
               )}
               <span
                 className={cn(
                   "text-lg font-bold",
                   isActive
-                    ? "text-zinc-500 dark:text-foreground"
-                    : "text-foreground/45"
+                    ? "text-gray-400 dark:text-foreground"
+                    : "text-foreground/45",
                 )}
               >
                 {link.title}

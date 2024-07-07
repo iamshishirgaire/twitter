@@ -1,4 +1,4 @@
-import AddPost from "@/app/dashboard/components/addPost";
+import AddPost from "@/app/dashboard/components/addTweet";
 import Spacer from "@/components/spacer";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import HomeNavBar from "./components/home-nav-bar";

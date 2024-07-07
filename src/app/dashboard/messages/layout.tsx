@@ -4,7 +4,6 @@ import Spacer from "@/components/spacer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import api from "@/lib/api";
 import MessageChannels from "@/lib/models/MessageChannels";
-import supabase from "@/lib/supabase";
 import { InboxIcon, SettingsIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -24,7 +23,7 @@ const MessageLayout = ({ children }: { children: React.ReactNode }) => {
     "message-channels",
     async () => {
       const data = await api.get<MessageChannels[]>(
-        "/message/channel?page=0&page_size=20&user_id=157a43c8-f85a-432e-97c4-7527a17e83de"
+        "/message/channel?page=0&page_size=20&user_id=157a43c8-f85a-432e-97c4-7527a17e83de",
       );
       return data.data;
     },
@@ -32,20 +31,8 @@ const MessageLayout = ({ children }: { children: React.ReactNode }) => {
       onSuccess(data) {
         setMessageChannels(data);
       },
-    }
+    },
   );
-
-  supabase
-    .channel("messages_channels")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "message_channels" },
-      (payload) => {
-        const newChannels = payload.new as MessageChannels;
-        setMessageChannels((prev) => [...prev, newChannels]);
-      }
-    )
-    .subscribe();
 
   const pathName = usePathname();
   return (
@@ -67,14 +54,14 @@ const MessageLayout = ({ children }: { children: React.ReactNode }) => {
               <ChannelTileSkeleton />
             </>
           ) : error ? (
-            <div className="flex items-center justify-center font-bold text-2xl">
+            <div className="flex items-center justify-center text-2xl font-bold">
               Failed to load channels
             </div>
           ) : (
             <ul>
               {messageChannels.map((channel) => (
                 <li
-                  className="py-1 border-b-0 border-border/25"
+                  className="border-b-0 border-border/25 py-1"
                   key={channel.id}
                 >
                   <ChannelTile

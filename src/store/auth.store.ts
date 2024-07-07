@@ -32,6 +32,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       set({ loading: true });
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("user");
       await api.post("/auth/logout");
       set({ user: null });
       toast.success("Logged out successfully");

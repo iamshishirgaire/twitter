@@ -108,8 +108,14 @@ const MessageTile = () => {
 
 export default MessageTile;
 
-export const UserAvatar = ({ userId }: { userId: string }) => {
-  const { data } = useQuery("user-avatar-detail", async () => {
+export const UserAvatar = ({
+  userId,
+  fallbackText,
+}: {
+  userId: string;
+  fallbackText?: string;
+}) => {
+  const { data } = useQuery(`user-avatar-${userId}}`, async () => {
     const data = await api.get<User>(`/user?id=${userId}`);
     return data.data;
   });
@@ -117,7 +123,7 @@ export const UserAvatar = ({ userId }: { userId: string }) => {
   return (
     <Avatar className="size-8">
       <AvatarImage src={data?.profile_picture ?? ""} />
-      <AvatarFallback>{data?.first_name ?? ""}</AvatarFallback>
+      <AvatarFallback>{fallbackText ?? data?.first_name ?? ""}</AvatarFallback>
     </Avatar>
   );
 };

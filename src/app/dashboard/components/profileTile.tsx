@@ -1,6 +1,6 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn, getInitials } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/auth.store";
 
 const ProfileTile = ({ border }: { border?: boolean }) => {
@@ -14,7 +14,7 @@ const ProfileTile = ({ border }: { border?: boolean }) => {
         "flex cursor-pointer items-center space-x-4",
         border
           ? "rounded-lg border border-border px-2 py-3 hover:bg-popover"
-          : ""
+          : "",
       )}
     >
       <Avatar>

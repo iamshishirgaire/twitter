@@ -34,7 +34,7 @@ export function TweetList() {
         </div>
       )}
       {data?.map((e) => {
-        return <Tweet tweet={e} />;
+        return <Tweet key={e.id} tweet={e} />;
       })}
     </div>
   );
