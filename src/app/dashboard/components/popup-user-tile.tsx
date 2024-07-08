@@ -1,6 +1,6 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import api from "@/lib/api";
+import api from "@/lib/api/";
 import Users from "@/lib/models/Users";
 import { cn } from "@/lib/utils";
 import { useQuery } from "react-query";

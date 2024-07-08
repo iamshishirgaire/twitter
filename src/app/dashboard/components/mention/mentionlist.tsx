@@ -1,4 +1,4 @@
-import api from "@/lib/api";
+import api from "@/lib/api/";
 import { cn } from "@/lib/utils";
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import { MentionOptions } from "@tiptap/extension-mention";

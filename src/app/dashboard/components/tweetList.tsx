@@ -1,7 +1,7 @@
 "use client";
 
 import Spinner from "@/components/spinner";
-import api from "@/lib/api";
+import api from "@/lib/api/";
 import Tweets from "@/lib/models/Tweets";
 import { useQuery } from "react-query";
 import Tweet from "./tweet";

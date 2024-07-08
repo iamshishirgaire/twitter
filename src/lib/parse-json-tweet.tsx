@@ -1,5 +1,4 @@
 import PopupProfileTile from "@/app/dashboard/components/popup-user-tile";
-import ProfileTile from "@/app/dashboard/components/profileTile";
 import {
   Tooltip,
   TooltipContent,
@@ -11,13 +10,15 @@ import React from "react";
 
 interface ParsedText {
   components: React.ReactNode[];
+  mentions: string[];
 }
 
 export const parseText = (text: string): ParsedText => {
-  const mentionRegex = /@\w+/g;
+  const mentionRegex = /(?:^|\s)@([^\s]+)/gi;
   const hashtagRegex = /#\w+/g;
 
   const components: React.ReactNode[] = [];
+  const mentions: string[] = [];
   let lastIndex = 0;
 
   const addTextComponent = (start: number, end: number) => {
@@ -38,18 +39,19 @@ export const parseText = (text: string): ParsedText => {
         <Tooltip>
           <TooltipTrigger>
             <Link
-              href={`/profile?user_name=${match[0].slice(1)}`}
+              href={`/profile?user_name=${match[1]}`}
               className="text-blue-500"
             >
               {match[0]}
             </Link>
           </TooltipTrigger>
           <TooltipContent className="border border-border bg-popover/40 backdrop-blur-lg">
-            <PopupProfileTile userName={match[0].slice(1)} />
+            <PopupProfileTile userName={match[1]} />
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>,
     );
+    mentions.push(match[1]); // Add mention to mentions array
     lastIndex = match.index + match[0].length;
   }
 
@@ -76,8 +78,11 @@ export const parseText = (text: string): ParsedText => {
   const finalComponents: React.ReactNode[] = [];
   components.forEach((component, index) => {
     if (typeof component === "string") {
-      const lines = component.split("\n");
+      const lines = component.split("\\n\\n");
       lines.forEach((line, lineIndex) => {
+        if (lineIndex > 0) {
+          finalComponents.push(<br key={`br-${index}-${lineIndex}`} />);
+        }
         if (line.trim() !== "") {
           finalComponents.push(line);
         }
@@ -87,5 +92,5 @@ export const parseText = (text: string): ParsedText => {
     }
   });
 
-  return { components: finalComponents };
+  return { components: finalComponents, mentions };
 };

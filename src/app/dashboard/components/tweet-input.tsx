@@ -18,13 +18,13 @@ import Text from "@tiptap/extension-text";
 const TweetInput = ({
   onChange,
   success,
-  setSuccess,
   emoji,
+  mode,
 }: {
   onChange: (tweet: string) => void;
   success: boolean;
-  setSuccess: (success: boolean) => void;
   emoji: string;
+  mode: string;
 }) => {
   const limit = 300;
   const editor = useEditor({
@@ -39,9 +39,7 @@ const TweetInput = ({
       },
     },
     extensions: [
-      Document.extend({
-        content: "block",
-      }),
+      Document.extend({}),
       Text,
       Heading.extend({
         addInputRules() {
@@ -62,7 +60,8 @@ const TweetInput = ({
         mode: "textSize",
       }),
       Placeholder.configure({
-        placeholder: "What's happening?",
+        placeholder: mode === "poll" ? "Ask a question" : "What's happening?",
+
         emptyEditorClass:
           "cursor-text before:content-[attr(data-placeholder)] before:absolute before:top-2 before:left-2 before:text-mauve-11 before:opacity-50 before-pointer-events-none",
       }),
@@ -89,7 +88,6 @@ const TweetInput = ({
     ],
     content: success ? "" : undefined,
   });
-  ///on emoji select callback from the props insert emoji at the cursor position
 
   useEffect(() => {
     if (emoji) {
@@ -101,7 +99,6 @@ const TweetInput = ({
     if (success) {
       editor?.commands.clearContent();
     }
-    setSuccess(false);
   }, [success]);
 
   return (

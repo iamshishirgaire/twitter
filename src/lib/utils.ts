@@ -43,3 +43,13 @@ export function getTimeDifference(timestamp: string) {
     return `${years} year${years !== 1 ? "s" : ""}`;
   }
 }
+
+export function isValidContent(s: string): boolean {
+  if (s.startsWith('"') && s.endsWith('"')) {
+    s = s.slice(1, -1);
+  }
+  s = s.replace(/\\n/g, "\n");
+  s = s.replace(/\s/g, "");
+
+  return s === "";
+}

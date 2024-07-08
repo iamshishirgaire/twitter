@@ -4,7 +4,7 @@ import { IconButton } from "@/components/ui/IconButton";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import api from "@/lib/api";
+import api from "@/lib/api/";
 import Messages from "@/lib/models/Messages";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/auth.store";
@@ -21,7 +21,6 @@ import { useQuery } from "react-query";
 import { ChannelHeader } from "../components/messageChannelTile";
 import { UserAvatar } from "../components/messageTile";
 import React from "react";
-import supabase from "@/lib/supabase";
 
 export default function MessagePage({
   params,
@@ -128,7 +127,7 @@ export const MessageContainer = ({ channelId }: { channelId: string }) => {
     return <div className="h-full w-full">Failed to load messages</div>;
   }
   return (
-    <div className="custom-scrollbar flex h-full w-full flex-col-reverse overflow-auto bg-gray-800">
+    <div className="flex h-full w-full flex-col-reverse overflow-auto bg-gray-800 custom-scrollbar">
       {data?.map((e) => {
         return (
           <div

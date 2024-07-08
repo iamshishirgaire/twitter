@@ -1,4 +1,4 @@
-import api from "@/lib/api";
+import api from "@/lib/api/";
 import { cn } from "@/lib/utils";
 import { MentionOptions } from "@tiptap/extension-mention";
 import { PluginKey } from "@tiptap/pm/state";

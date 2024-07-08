@@ -1,42 +1,34 @@
 "use client";
-import api from "@/lib/api";
 import EmojiPicker from "@/components/emoji";
+import { postTweet } from "@/lib/api/tweet";
 import { useAuthStore } from "@/store/auth.store";
 import {
   AdjustmentsHorizontalIcon,
   PhotoIcon,
 } from "@heroicons/react/24/outline";
-import { XCircleIcon } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
+import { useMutation } from "react-query";
 import { Button } from "../../../components/ui/button";
 import { UserAvatar } from "../messages/components/messageTile";
+import { FilePreviews } from "./file-preview";
 import TweetInput from "./tweet-input";
-import { uploadFiles } from "@/lib/upload-files";
-import { useMutation } from "react-query";
+import PollComponent from "./poll";
+import { isValidContent } from "@/lib/utils";
 
 const AddPost = () => {
   const [tweet, setTweet] = useState<string | undefined>();
   const [files, setFiles] = useState<File[]>([]);
+  const [pollMode, setPollMode] = useState<boolean>(false);
   const [emoji, setEmoji] = useState<string | undefined>();
-  const [preview, setPreview] = useState<string[]>([]);
   const userId = useAuthStore((state) => state.user?.id);
-  const [success, setSuccess] = useState(false);
-  const { mutate, isLoading } = useMutation(
+  const { mutate, isLoading, isSuccess } = useMutation(
     "tweet",
-    async () => {
-      const imageUrls = await uploadFiles(files);
-      await api.post(`tweet`, {
-        content: tweet?.replace(/^"|"$/g, ""),
-        media_url: imageUrls,
-      });
-    },
+    () => postTweet(tweet ?? "", files),
     {
       onSuccess: () => {
         setTweet("");
         setFiles([]);
-        setPreview([]);
-        setSuccess(true);
         toast.success("Tweet uploaded successfully");
       },
       onError: () => {
@@ -48,23 +40,18 @@ const AddPost = () => {
     useAuthStore.getState().getCurrentUser();
   }
   if (!userId) {
-    return <div className="size-8 animate-ping rounded-full"></div>;
+    return null;
   }
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.files);
+    setPollMode(false);
     const selectedFile = event.target.files ? event.target.files[0] : null;
-
     if (
       selectedFile &&
       !files.some((file) => file.name === selectedFile.name)
     ) {
       setFiles((prev) => {
         return prev ? [...prev, selectedFile] : [selectedFile];
-      });
-      const previewUrl = URL.createObjectURL(selectedFile);
-      setPreview((prev) => {
-        return prev ? [...prev, previewUrl] : [previewUrl];
       });
     }
   };
@@ -73,54 +60,26 @@ const AddPost = () => {
     setFiles((prev) => {
       return prev.filter((_, i) => i !== index);
     });
-    setPreview((prev) => {
-      return prev.filter((_, i) => i !== index);
-    });
   };
   return (
     <div className="flex flex-col">
-      <div className="flex gap-2">
-        <UserAvatar userId={userId ?? ""} />
-        <TweetInput
-          setSuccess={setSuccess}
-          emoji={emoji ?? ""}
-          success={success}
-          onChange={(e) => {
-            setTweet(e);
-          }}
-        />
-      </div>
-      <div className="mb-4">
-        {files && (
-          <div className="flex flex-col items-center border-b-2 border-border/50">
-            <div className="grid grid-cols-2 gap-2 rounded-md p-4">
-              {preview &&
-                preview.map((url, index) => (
-                  <div key={url} className="relative">
-                    <XCircleIcon
-                      onClick={() => handleRemoveFile(index)}
-                      className="absolute right-5 top-2 z-10 size-7 rounded-full bg-black p-[5px] text-gray-200 transition-colors duration-200 hover:bg-gray-700"
-                    />
-                    {files[index].type.startsWith("image/") && (
-                      <img
-                        src={url}
-                        alt="Selected File"
-                        className="max-h-96 max-w-full rounded-sm"
-                      />
-                    )}
-                    {files[index].type.startsWith("video/") && (
-                      <video
-                        src={url}
-                        controls={false}
-                        className="max-h-96 max-w-full"
-                      ></video>
-                    )}
-                  </div>
-                ))}
-            </div>
-          </div>
+      <>
+        <div className="flex gap-2">
+          <UserAvatar userId={userId ?? ""} />
+          <TweetInput
+            mode={pollMode ? "poll" : "tweet"}
+            emoji={emoji ?? ""}
+            success={isSuccess}
+            onChange={(e) => {
+              setTweet(e);
+            }}
+          />
+        </div>
+        {files.length > 0 && (
+          <FilePreviews files={files} onRemove={handleRemoveFile} />
         )}
-      </div>
+      </>
+      {pollMode && <PollComponent />}
       <div className="mt-2 flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <label className="rounded-md px-2 py-2 text-primary hover:bg-primary/35">
@@ -137,6 +96,10 @@ const AddPost = () => {
           <Button
             variant="ghost"
             size="icon"
+            onClick={() => {
+              setPollMode(!pollMode);
+              setFiles([]);
+            }}
             className="text-primary hover:bg-primary/35 hover:text-primary"
           >
             <AdjustmentsHorizontalIcon className="h-5 w-5 text-primary" />
@@ -146,7 +109,7 @@ const AddPost = () => {
         </div>
         <Button
           className="rounded-3xl"
-          disabled={tweet === undefined || tweet.length < 1 || isLoading}
+          disabled={tweet === undefined || isValidContent(tweet) || isLoading}
           onClick={(e) => {
             e.preventDefault();
             if (tweet && tweet.length > 0) {

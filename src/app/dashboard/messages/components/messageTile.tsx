@@ -6,12 +6,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDownIcon, MessageCircleIcon } from "lucide-react";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { useQuery } from "react-query";
-import User from "@/lib/models/User";
 import api from "@/lib/api";
+import Users from "@/lib/models/Users";
+import { motion } from "framer-motion";
+import { ChevronDownIcon } from "lucide-react";
+import { useState } from "react";
+import { useQuery } from "react-query";
 
 const MessageTile = () => {
   const [open, setOpen] = useState(false);
@@ -116,7 +116,7 @@ export const UserAvatar = ({
   fallbackText?: string;
 }) => {
   const { data } = useQuery(`user-avatar-${userId}}`, async () => {
-    const data = await api.get<User>(`/user?id=${userId}`);
+    const data = await api.get<Users>(`/user?id=${userId}`);
     return data.data;
   });
 

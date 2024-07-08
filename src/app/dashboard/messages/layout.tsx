@@ -2,7 +2,7 @@
 import PageTitle from "@/components/pageTitle";
 import Spacer from "@/components/spacer";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import api from "@/lib/api";
+import api from "@/lib/api/";
 import MessageChannels from "@/lib/models/MessageChannels";
 import { InboxIcon, SettingsIcon } from "lucide-react";
 import Link from "next/link";

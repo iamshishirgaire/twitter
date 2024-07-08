@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import api from "@/lib/api";
 import Tweets from "@/lib/models/Tweets";
 import Users from "@/lib/models/Users";
 import { parseText } from "@/lib/parse-json-tweet";
@@ -13,6 +12,7 @@ import { BookmarkIcon, EyeIcon, Repeat2Icon } from "lucide-react";
 import { useQuery } from "react-query";
 import { UserAvatar } from "../messages/components/messageTile";
 import { DynamicGrid } from "@/components/image-grid";
+import api from "@/lib/api";
 
 const Tweet = ({ tweet }: { tweet: Tweets }) => {
   return (

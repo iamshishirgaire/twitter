@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+"use client";
 import { SmileIcon } from "lucide-react";
 import Picker from "@emoji-mart/react";
 import { useQuery } from "react-query";
 import { Button } from "./ui/button";
+import { useEffect, useRef, useState } from "react";
 
 interface EmojiPickerProps {
   onChange: (emoji: string) => void;

@@ -1,7 +1,7 @@
 "use client";
 import Spinner from "@/components/spinner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import api from "@/lib/api";
+import api from "@/lib/api/";
 import type MessageChannels from "@/lib/models/MessageChannels";
 import { cn, getTimeDifference } from "@/lib/utils";
 import Link from "next/link";
