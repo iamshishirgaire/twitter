@@ -123,7 +123,9 @@ export const UserAvatar = ({
   return (
     <Avatar className="size-8">
       <AvatarImage src={data?.profile_picture ?? ""} />
-      <AvatarFallback>{fallbackText ?? data?.first_name ?? ""}</AvatarFallback>
+      <AvatarFallback>
+        {fallbackText ?? data?.user_name?.charAt(0) ?? "Y"}
+      </AvatarFallback>
     </Avatar>
   );
 };

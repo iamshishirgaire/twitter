@@ -53,13 +53,18 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({ onChange }) => {
         variant={"ghost"}
         size={"icon"}
         onClick={handleToggle}
-        className="text-blue-500 hover:bg-blue-500/35 hover:text-blue-500"
+        className="text-primary hover:bg-primary/35 hover:text-primary"
       >
         <SmileIcon className="size-5" />
       </Button>
       {isOpen && (
         <div className="absolute z-10 mt-2">
-          <Picker data={data} onEmojiSelect={onChange} />
+          <Picker
+            data={data}
+            onEmojiSelect={(e: any) => {
+              onChange(e.native);
+            }}
+          />
         </div>
       )}
     </div>

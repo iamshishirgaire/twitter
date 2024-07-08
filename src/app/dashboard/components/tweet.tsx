@@ -10,9 +10,9 @@ import {
   HeartIcon,
 } from "@heroicons/react/24/outline";
 import { BookmarkIcon, EyeIcon, Repeat2Icon } from "lucide-react";
-import Image from "next/image";
 import { useQuery } from "react-query";
 import { UserAvatar } from "../messages/components/messageTile";
+import { DynamicGrid } from "@/components/image-grid";
 
 const Tweet = ({ tweet }: { tweet: Tweets }) => {
   return (
@@ -34,7 +34,7 @@ function TweetInfo({ tweet }: { tweet: Tweets }) {
   });
   const parsedText = parseText(tweet.content);
   return (
-    <div className="flex-1">
+    <div className="w-full flex-1">
       <div className="flex w-full items-center gap-2">
         <div className="flex items-center gap-2">
           <p className="font-bold">{data?.first_name}</p>
@@ -49,20 +49,8 @@ function TweetInfo({ tweet }: { tweet: Tweets }) {
           )}
         </div>
       </div>
-      <div> {parsedText.components}</div>
-      {tweet.media_url &&
-        tweet.media_url.map((e) => {
-          return (
-            <Image
-              key={e}
-              src={e}
-              width={600}
-              height={300}
-              alt={`Tweet Image of ${tweet.content}`}
-              className="mt-4"
-            />
-          );
-        })}
+      <div className="mb-2 mt-1"> {parsedText.components}</div>
+      {tweet.media_url && <DynamicGrid imageUrls={tweet.media_url} />}
       <div className="flex items-center justify-between gap-2 pt-4">
         <Button
           className="m-1 flex items-center justify-center gap-2 text-gray-400 hover:bg-blue-400/10 hover:text-blue-400"

@@ -19,10 +19,12 @@ const TweetInput = ({
   onChange,
   success,
   setSuccess,
+  emoji,
 }: {
   onChange: (tweet: string) => void;
   success: boolean;
   setSuccess: (success: boolean) => void;
+  emoji: string;
 }) => {
   const limit = 300;
   const editor = useEditor({
@@ -87,6 +89,14 @@ const TweetInput = ({
     ],
     content: success ? "" : undefined,
   });
+  ///on emoji select callback from the props insert emoji at the cursor position
+
+  useEffect(() => {
+    if (emoji) {
+      editor?.commands.insertContent(emoji);
+    }
+  }, [emoji]);
+
   useEffect(() => {
     if (success) {
       editor?.commands.clearContent();
