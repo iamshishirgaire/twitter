@@ -13,21 +13,46 @@ import {
 } from "@/components/ui/select";
 import { TrashIcon } from "@heroicons/react/24/outline";
 
-export default function PollComponent() {
-  const [options, setOptions] = useState([{ id: "option1", value: "Red" }]);
+export type PollOption = {
+  id: string;
+  value: string;
+};
+interface PollComponentProps {
+  onPollRemove: (e: boolean) => void;
+  options: PollOption[];
+
+  duration: string | undefined;
+  onOptionsChange: (e: PollOption[]) => void;
+  onDurationChange: (e: string) => void;
+}
+export default function PollComponent(props: PollComponentProps) {
   const addOption = () => {
-    setOptions([...options, { id: `option${options.length + 1}`, value: "" }]);
+    const newOption = {
+      id: `option${props.options.length + 1}`,
+      value: "",
+    };
+    props.onOptionsChange([...props.options, newOption]);
   };
   return (
     <>
-      <div className="flex flex-col gap-4">
-        {options.map((option, index) => (
-          <div className="flex items-center gap-3">
+      <div className="mt-2 flex flex-col gap-4">
+        {props.options.map((option, index) => (
+          <div key={index} className="flex items-center gap-3">
             <Input
-              onClick={() => {
-                if (index === options.length - 1) {
-                  options.length < 4 ? addOption() : null;
+              onFocus={() => {
+                if (index === props.options.length - 1) {
+                  props.options.length < 4 ? addOption() : null;
                 }
+              }}
+              onChange={(e) => {
+                props.onOptionsChange(
+                  props.options.map((o) => {
+                    if (o.id === option.id) {
+                      return { ...o, value: e.target.value };
+                    }
+                    return o;
+                  }),
+                );
               }}
               key={option.id}
               id={option.id}
@@ -37,10 +62,13 @@ export default function PollComponent() {
             <Button
               variant="outline"
               className="group h-12"
-              disabled={options.length === 1}
+              disabled={props.options.length === 1}
               onClick={() => {
-                if (options.length > 1)
-                  setOptions(options.filter((_, i) => i !== index));
+                if (props.options.length > 1) {
+                  props.onOptionsChange(
+                    props.options.filter((e) => e.id !== option.id),
+                  );
+                }
               }}
             >
               <TrashIcon className="size-5 text-gray-500 group-hover:text-gray-100" />
@@ -48,20 +76,30 @@ export default function PollComponent() {
           </div>
         ))}
       </div>
-      <Select>
-        <SelectTrigger className="mt-4 w-fit focus-visible:ring-0">
-          <SelectValue
-            className="text-gray-500"
-            placeholder="Select time limit"
-          />
+      <Select
+        onValueChange={(e) => {
+          props.onDurationChange(e);
+        }}
+      >
+        <SelectTrigger className="mt-4 w-fit text-gray-400 focus-visible:ring-0">
+          <SelectValue placeholder="Duration"></SelectValue>
         </SelectTrigger>
-        <SelectContent className="mt-1 border border-border">
-          <SelectItem value="1">1 day</SelectItem>
-          <SelectItem value="1">2 day</SelectItem>
-          <SelectItem value="3">3 days</SelectItem>
-          <SelectItem value="7">1 week</SelectItem>
+        <SelectContent className="m-0 border border-border p-0 focus-visible:ring-0">
+          <SelectItem value="1d">1 day</SelectItem>
+          <SelectItem value="2d">2 day</SelectItem>
+          <SelectItem value="3d">3 days</SelectItem>
+          <SelectItem value="7d">1 week</SelectItem>
         </SelectContent>
       </Select>
+      <Button
+        className="mt-4 rounded-xl bg-destructive/20 text-red-400 hover:bg-destructive/30"
+        variant={"secondary"}
+        onClick={() => {
+          props.onPollRemove(false);
+        }}
+      >
+        Cancel
+      </Button>
     </>
   );
 }

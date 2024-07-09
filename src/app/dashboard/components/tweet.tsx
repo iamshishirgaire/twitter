@@ -11,7 +11,7 @@ import {
 import { BookmarkIcon, EyeIcon, Repeat2Icon } from "lucide-react";
 import { useQuery } from "react-query";
 import { UserAvatar } from "../messages/components/messageTile";
-import { DynamicGrid } from "@/components/image-grid";
+import { DynamicGrid } from "@/components/media-grid";
 import api from "@/lib/api";
 
 const Tweet = ({ tweet }: { tweet: Tweets }) => {

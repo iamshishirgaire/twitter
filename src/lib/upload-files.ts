@@ -8,9 +8,11 @@ interface SignedUrlResponse {
   cloud_name: string;
 }
 
-const getSignedUrl = async (): Promise<SignedUrlResponse> => {
+const getSignedUrl = async (
+  type: "video" | "image",
+): Promise<SignedUrlResponse> => {
   try {
-    const response = await api.get<SignedUrlResponse>("/upload");
+    const response = await api.get<SignedUrlResponse>(`/upload?type=${type}`);
     return response.data;
   } catch (error) {
     throw new Error(`Failed to get signed URL: ${error}`);
@@ -33,6 +35,7 @@ const uploadFile = async (
       body: formData,
     });
     const data = await response.json();
+
     return data.url; // Assuming the response contains the URL in `url`
   } catch (error) {
     throw new Error(`Failed to upload file: ${error}`);
@@ -41,11 +44,27 @@ const uploadFile = async (
 
 export const uploadFiles = async (files: File[]): Promise<string[]> => {
   try {
-    const signedUrlData = await getSignedUrl();
-    const uploadPromises = files.map((file) => uploadFile(file, signedUrlData));
-    const uploadedUrls = await Promise.all(uploadPromises);
+    const signedUrlDataVideo = await getSignedUrl("video");
+    const signedUrlDataImage = await getSignedUrl("image");
+
+    const videoFiles = files.filter((file) => file.type.includes("video"));
+    const imageFiles = files.filter((file) => file.type.includes("image"));
+
+    const uploadPromisesVideo = videoFiles.map((file) =>
+      uploadFile(file, signedUrlDataVideo),
+    );
+    const uploadPromisesImage = imageFiles.map((file) =>
+      uploadFile(file, signedUrlDataImage),
+    );
+
+    const uploadedUrlsVideo = await Promise.all(uploadPromisesVideo);
+    const uploadedUrlsImage = await Promise.all(uploadPromisesImage);
+
+    const uploadedUrls = [...uploadedUrlsVideo, ...uploadedUrlsImage];
     return uploadedUrls;
   } catch (error) {
+    console.error(error);
+
     throw new Error(`Failed to upload files: ${error}`);
   }
 };

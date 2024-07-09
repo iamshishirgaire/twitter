@@ -1,4 +1,6 @@
+import { VideoPlayer } from "@/components/video_player";
 import { XCircleIcon } from "lucide-react";
+import React, { useRef, useEffect } from "react";
 
 interface FilePreviewProps {
   files: File[];
@@ -6,8 +8,22 @@ interface FilePreviewProps {
 }
 
 export function FilePreviews({ files, onRemove }: FilePreviewProps) {
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  useEffect(() => {
+    videoRefs.current = videoRefs.current.filter((ref) => ref !== null);
+    videoRefs.current.forEach((video, index) => {
+      if (video && files[index]?.type.startsWith("video/")) {
+        const src = URL.createObjectURL(files[index]);
+        if (video.src !== src) {
+          video.src = src;
+        }
+      }
+    });
+  }, [files]);
+
   return (
-    <div className="border border-border/20 bg-zinc-900/20 p-4">
+    <div className="mt-2 border border-border/20 bg-zinc-900/20 p-4">
       {files.length > 1 ? (
         <div className="mt-2 grid grid-cols-2 gap-2 rounded-md">
           {files.map((file: File, index: number) => (
@@ -25,12 +41,13 @@ export function FilePreviews({ files, onRemove }: FilePreviewProps) {
               )}
               {file.type.startsWith("video/") && (
                 <video
-                  src={URL.createObjectURL(file)}
-                  autoPlay
+                  ref={(e) => {
+                    videoRefs.current[index] = e;
+                  }}
                   controls
                   controlsList="nodownload"
                   className="max-h-96 max-w-full rounded-sm"
-                ></video>
+                />
               )}
             </div>
           ))}
@@ -51,12 +68,13 @@ export function FilePreviews({ files, onRemove }: FilePreviewProps) {
             )}
             {files[0].type.startsWith("video/") && (
               <video
-                src={URL.createObjectURL(files[0])}
-                autoPlay
+                ref={(e) => {
+                  videoRefs.current[0] = e;
+                }}
                 controls
                 controlsList="nodownload"
                 className="max-h-96 max-w-full rounded-sm"
-              ></video>
+              />
             )}
           </div>
         </div>

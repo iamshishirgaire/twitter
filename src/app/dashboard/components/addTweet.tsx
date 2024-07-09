@@ -1,6 +1,7 @@
 "use client";
 import EmojiPicker from "@/components/emoji";
-import { postTweet } from "@/lib/api/tweet";
+import { postPoll, postTweet } from "@/lib/api/tweet";
+import { validatePoll, validateTweet } from "@/lib/utils";
 import { useAuthStore } from "@/store/auth.store";
 import {
   AdjustmentsHorizontalIcon,
@@ -12,27 +13,37 @@ import { useMutation } from "react-query";
 import { Button } from "../../../components/ui/button";
 import { UserAvatar } from "../messages/components/messageTile";
 import { FilePreviews } from "./file-preview";
+import PollComponent, { PollOption } from "./poll";
 import TweetInput from "./tweet-input";
-import PollComponent from "./poll";
-import { isValidContent } from "@/lib/utils";
 
 const AddPost = () => {
   const [tweet, setTweet] = useState<string | undefined>();
   const [files, setFiles] = useState<File[]>([]);
   const [pollMode, setPollMode] = useState<boolean>(false);
+  const [options, setOptions] = useState<PollOption[]>([
+    { id: "option1", value: "" },
+    { id: "option2", value: "" },
+  ]);
+  const [duration, setDuration] = useState<string | undefined>(undefined);
   const [emoji, setEmoji] = useState<string | undefined>();
   const userId = useAuthStore((state) => state.user?.id);
-  const { mutate, isLoading, isSuccess } = useMutation(
+  const { mutateAsync, isLoading, isSuccess } = useMutation(
     "tweet",
-    () => postTweet(tweet ?? "", files),
+    () =>
+      pollMode
+        ? postPoll(tweet ?? "", options, duration!)
+        : postTweet(tweet ?? "", files),
     {
       onSuccess: () => {
         setTweet("");
         setFiles([]);
-        toast.success("Tweet uploaded successfully");
-      },
-      onError: () => {
-        toast.error("Failed to upload tweet");
+        setPollMode(false);
+        setOptions([
+          { id: "option1", value: "" },
+          { id: "option2", value: "" },
+        ]);
+        setDuration(undefined);
+        setEmoji(undefined);
       },
     },
   );
@@ -40,7 +51,7 @@ const AddPost = () => {
     useAuthStore.getState().getCurrentUser();
   }
   if (!userId) {
-    return null;
+    return <div className="h-full w-full animate-ping"></div>;
   }
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +90,17 @@ const AddPost = () => {
           <FilePreviews files={files} onRemove={handleRemoveFile} />
         )}
       </>
-      {pollMode && <PollComponent />}
+      {pollMode && (
+        <PollComponent
+          options={options}
+          duration={duration}
+          onOptionsChange={(e) => setOptions(e)}
+          onDurationChange={(e) => setDuration(e)}
+          onPollRemove={(e) => {
+            setPollMode(e);
+          }}
+        />
+      )}
       <div className="mt-2 flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <label className="rounded-md px-2 py-2 text-primary hover:bg-primary/35">
@@ -98,7 +119,6 @@ const AddPost = () => {
             size="icon"
             onClick={() => {
               setPollMode(!pollMode);
-              setFiles([]);
             }}
             className="text-primary hover:bg-primary/35 hover:text-primary"
           >
@@ -109,11 +129,27 @@ const AddPost = () => {
         </div>
         <Button
           className="rounded-3xl"
-          disabled={tweet === undefined || isValidContent(tweet) || isLoading}
+          disabled={
+            pollMode
+              ? validatePoll(options, isLoading, duration, tweet)
+              : validateTweet(tweet, isLoading)
+          }
           onClick={(e) => {
             e.preventDefault();
             if (tweet && tweet.length > 0) {
-              mutate();
+              toast.promise(
+                mutateAsync(),
+                {
+                  loading: "Uploading",
+                  success: `${pollMode ? "Poll" : "Tweet"} uploaded successfully`,
+                  error: `Failed to upload ${pollMode ? "Poll" : "Tweet"}`,
+                },
+                {
+                  style: {
+                    minWidth: "250px",
+                  },
+                },
+              );
             }
           }}
         >
