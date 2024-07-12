@@ -72,7 +72,7 @@ export const parseText = (text: string): ParsedText => {
   }
 
   if (lastIndex < text.length) {
-    addTextComponent(lastIndex, text.length);
+    addTextComponent(lastIndex, text?.length);
   }
 
   const finalComponents: React.ReactNode[] = [];

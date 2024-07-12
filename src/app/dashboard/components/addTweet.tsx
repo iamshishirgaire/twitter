@@ -13,7 +13,7 @@ import { useMutation } from "react-query";
 import { Button } from "../../../components/ui/button";
 import { UserAvatar } from "../messages/components/messageTile";
 import { FilePreviews } from "./file-preview";
-import PollComponent, { PollOption } from "./poll";
+import PollComponent, { PollOption } from "./create-poll";
 import TweetInput from "./tweet-input";
 
 const AddPost = () => {
@@ -24,7 +24,7 @@ const AddPost = () => {
     { id: "option1", value: "" },
     { id: "option2", value: "" },
   ]);
-  const [duration, setDuration] = useState<string | undefined>(undefined);
+  const [duration, setDuration] = useState<Date | undefined>(undefined);
   const [emoji, setEmoji] = useState<string | undefined>();
   const userId = useAuthStore((state) => state.user?.id);
   const { mutateAsync, isLoading, isSuccess } = useMutation(
@@ -93,7 +93,6 @@ const AddPost = () => {
       {pollMode && (
         <PollComponent
           options={options}
-          duration={duration}
           onOptionsChange={(e) => setOptions(e)}
           onDurationChange={(e) => setDuration(e)}
           onPollRemove={(e) => {

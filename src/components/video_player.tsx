@@ -49,7 +49,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ src }) => {
           }
         });
       },
-      { threshold: 0.5 }, // Play/pause when 50% of the video is in view
+      { threshold: 0.5 },
     );
 
     observer.observe(videoElement);

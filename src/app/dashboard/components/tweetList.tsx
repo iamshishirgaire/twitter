@@ -1,15 +1,21 @@
 "use client";
 
 import Spinner from "@/components/spinner";
-import api from "@/lib/api/";
-import Tweets from "@/lib/models/Tweets";
+import { getPollIds, getTweets } from "@/lib/api/tweet";
 import { useQuery } from "react-query";
+import { PollList } from "./poll-list";
 import Tweet from "./tweet";
 
 export function TweetList() {
   const { data, isLoading, isError } = useQuery("tweets", async () => {
-    const res = await api.get<Tweets[]>("/tweet/all");
-    return res.data;
+    const tweets = getTweets();
+    const polls = getPollIds();
+    const res = await Promise.all([tweets, polls]);
+
+    return {
+      tweet: res[0],
+      polls: res[1],
+    };
   });
   if (isError) {
     return (
@@ -20,7 +26,7 @@ export function TweetList() {
   }
   if (isLoading) {
     return (
-      <div className="mt-10 flex h-full w-full items-center justify-center">
+      <div className="mt-10 flex h-96 w-full items-center justify-center">
         <Spinner />
       </div>
     );
@@ -28,12 +34,15 @@ export function TweetList() {
 
   return (
     <div>
-      {data?.length === 0 && (
+      {data?.tweet.length === 0 && (
         <div className="mt-10 flex justify-center">
           <p>No Posts available</p>
         </div>
       )}
-      {data?.map((e) => {
+
+      {data?.polls.length === 0 && <div></div>}
+      {data?.polls && <PollList poll={data?.polls} />}
+      {data?.tweet?.map((e) => {
         return <Tweet key={e.id} tweet={e} />;
       })}
     </div>

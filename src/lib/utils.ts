@@ -1,4 +1,4 @@
-import { PollOption } from "@/app/dashboard/components/poll";
+import { PollOption } from "@/app/dashboard/components/create-poll";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -62,23 +62,22 @@ export function validateTweet(tweet: string | undefined, isLoading: boolean) {
 export function validatePoll(
   options: PollOption[],
   isLoading: boolean,
-  duration: string | undefined,
+  duration: Date | undefined,
   tweet: string | undefined,
 ) {
-  console.log(options, isLoading, duration, tweet);
   return (
     options.length < 2 ||
     isLoading ||
     duration == undefined ||
     tweet == undefined ||
     options.some((option) => option.value === "") ||
-    duration === "" ||
+    duration < new Date() ||
     isValidContent(tweet)
   );
 }
 
 export const isVideo = (url: string) => {
-  const videoExtensions = [".mp4", ".mov", ".avi", ".mkv"]; // Add more video extensions if needed
+  const videoExtensions = [".mp4", ".mov", ".avi", ".mkv", ".m3u8"]; // Add more video extensions if needed
   const extension = url.substring(url.lastIndexOf("."));
   return videoExtensions.includes(extension);
 };

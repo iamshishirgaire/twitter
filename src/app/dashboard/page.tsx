@@ -2,10 +2,9 @@ import AddPost from "@/app/dashboard/components/addTweet";
 import Spacer from "@/components/spacer";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import HomeNavBar from "./components/home-nav-bar";
-import Post from "./components/tweet";
 import RightSideBar from "./components/rightSidebar/rightSideBar";
-import MessageTile from "./messages/components/messageTile";
 import { TweetList } from "./components/tweetList";
+import MessageTile from "./messages/components/messageTile";
 
 export default function Home() {
   return (

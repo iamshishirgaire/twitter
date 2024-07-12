@@ -36,6 +36,8 @@ const uploadFile = async (
     });
     const data = await response.json();
 
+    //if video file then return playbackUrl
+    if (file.type.includes("video")) return data.playback_url;
     return data.url; // Assuming the response contains the URL in `url`
   } catch (error) {
     throw new Error(`Failed to upload file: ${error}`);
