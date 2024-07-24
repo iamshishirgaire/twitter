@@ -26,18 +26,16 @@ export const GoogleOauth = () => {
         size="large"
         type="standard"
         useOneTap
-        onSuccess={async (e) => {
-          console.log(e);
-          if (!e.credential) {
-            return toast.error("Failed to login");
-          }
-          const res = await login(e.credential);
-
-          if (res) {
-            toast.success("Successfully logged in");
-          } else {
+        onSuccess={(reponse) => {
+          if (!reponse.credential) {
             toast.error("Failed to login");
+            return;
           }
+          toast.promise(login(reponse.credential), {
+            loading: "Logging in...",
+            success: "Logged in successfully",
+            error: "Failed to login",
+          });
         }}
         theme="filled_black"
         shape="square"

@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { BookmarkIcon, EyeIcon, Repeat2Icon } from "lucide-react";
 import { useQuery } from "react-query";
-import { UserAvatar } from "../messages/components/messageTile";
+import { UserAvatar } from "../home/components/messageTile";
 import { DynamicGrid } from "@/components/media-grid";
 import api from "@/lib/api";
 

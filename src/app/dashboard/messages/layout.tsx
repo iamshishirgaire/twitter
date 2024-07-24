@@ -36,7 +36,7 @@ const MessageLayout = ({ children }: { children: React.ReactNode }) => {
 
   const pathName = usePathname();
   return (
-    <div className="grid grid-cols-[1fr_2fr]">
+    <div className="grid grid-cols-[1.3fr_2fr]">
       <div className="border-r border-border">
         <PageTitle title="Messages" className="border-b border-border/55 p-4">
           <Link href="#" className="flex items-center gap-2">

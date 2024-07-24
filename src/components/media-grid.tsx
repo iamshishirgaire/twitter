@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { isVideo } from "@/lib/utils";
 import { VideoPlayer } from "./video_player";
+import MediaCarousel from "./MediaCarousel";
 
 interface DynamicGridProps {
   imageUrls: string[];
@@ -13,9 +14,7 @@ export const DynamicGrid: React.FC<DynamicGridProps> = ({ imageUrls }) => {
     const count = imageUrls.length;
 
     return (
-      <div
-        className={`relative grid h-full w-full grid-cols-${count === 1 ? 1 : 2} gap-2`}
-      >
+      <>
         {count === 1 && (
           <div className="flex items-center justify-center rounded-sm bg-background py-4">
             {isVideo(imageUrls[0]) ? (
@@ -24,7 +23,7 @@ export const DynamicGrid: React.FC<DynamicGridProps> = ({ imageUrls }) => {
               <Image
                 src={imageUrls[0]}
                 alt="Single Image"
-                width={500}
+                width={382}
                 height={382}
                 priority
                 className="rounded-sm"
@@ -33,24 +32,12 @@ export const DynamicGrid: React.FC<DynamicGridProps> = ({ imageUrls }) => {
             )}
           </div>
         )}
-        {count > 1 &&
-          imageUrls.map((url, index) => (
-            <Link key={url} href={`/image/${index}`} passHref>
-              {isVideo(url) ? (
-                <VideoPlayer src={imageUrls[index]} />
-              ) : (
-                <Image
-                  src={url}
-                  alt="Multiple Images"
-                  width={200}
-                  height={384}
-                  priority
-                  style={{ height: "384px", width: "auto" }}
-                />
-              )}
-            </Link>
-          ))}
-      </div>
+        {count > 1 && (
+          <div className="flex w-full items-center justify-center pt-2">
+            <MediaCarousel mediaUrls={imageUrls} />
+          </div>
+        )}
+      </>
     );
   };
 

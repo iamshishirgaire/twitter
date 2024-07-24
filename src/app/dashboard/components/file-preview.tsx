@@ -1,6 +1,6 @@
-import { VideoPlayer } from "@/components/video_player";
 import { XCircleIcon } from "lucide-react";
-import React, { useRef, useEffect } from "react";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
 
 interface FilePreviewProps {
   files: File[];
@@ -33,7 +33,9 @@ export function FilePreviews({ files, onRemove }: FilePreviewProps) {
                 className="absolute right-5 top-2 z-10 size-7 rounded-full bg-black p-[5px] text-gray-200 transition-colors duration-200 hover:bg-gray-700"
               />
               {file.type.startsWith("image/") && (
-                <img
+                <Image
+                  height={296}
+                  width={296}
                   src={URL.createObjectURL(file)}
                   alt="Selected File"
                   className="max-h-96 max-w-full rounded-sm"
@@ -60,9 +62,11 @@ export function FilePreviews({ files, onRemove }: FilePreviewProps) {
               className="absolute right-2 top-2 z-10 size-7 rounded-full bg-black p-[5px] text-gray-200 transition-colors duration-200 hover:bg-gray-700"
             />
             {files[0].type.startsWith("image/") && (
-              <img
+              <Image
                 src={URL.createObjectURL(files[0])}
                 alt="Selected File"
+                height={296}
+                width={296}
                 className="max-h-96 max-w-full rounded-sm"
               />
             )}

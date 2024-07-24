@@ -1,8 +1,12 @@
 import { env } from "@/env";
 import axios from "axios";
 
+const environment = process.env.NODE_ENV;
 const api = axios.create({
-  baseURL: env.NEXT_PUBLIC_BASE_API_URL,
+  baseURL:
+    environment === "development"
+      ? env.NEXT_PUBLIC_BASE_API_URL_DEV
+      : env.NEXT_PUBLIC_BASE_API_URL_PROD,
 });
 
 if (typeof window !== "undefined") {

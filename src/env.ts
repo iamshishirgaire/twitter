@@ -4,15 +4,19 @@ import { z } from "zod";
 export const env = createEnv({
   server: {
     GOOGLE_CLIENT_ID: z.string().min(1),
-    BASE_API_URL: z.string(),
+    BASE_API_URL_DEV: z.string(),
+    BASE_API_URL_PROD: z.string(),
   },
   client: {
-    NEXT_PUBLIC_BASE_API_URL: z.string(),
+    NEXT_PUBLIC_BASE_API_URL_DEV: z.string(),
+    NEXT_PUBLIC_BASE_API_URL_PROD: z.string(),
   },
 
   runtimeEnv: {
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-    BASE_API_URL: process.env.BASE_API_URL,
-    NEXT_PUBLIC_BASE_API_URL: process.env.NEXT_PUBLIC_BASE_API_URL,
+    BASE_API_URL_DEV: process.env.BASE_API_URL_DEV,
+    BASE_API_URL_PROD: process.env.BASE_API_URL_PROD,
+    NEXT_PUBLIC_BASE_API_URL_DEV: process.env.NEXT_PUBLIC_BASE_API_URL_DEV,
+    NEXT_PUBLIC_BASE_API_URL_PROD: process.env.NEXT_PUBLIC_BASE_API_URL_PROD,
   },
 });

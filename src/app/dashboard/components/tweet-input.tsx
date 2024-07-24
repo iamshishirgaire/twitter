@@ -93,13 +93,13 @@ const TweetInput = ({
     if (emoji) {
       editor?.commands.insertContent(emoji);
     }
-  }, [emoji]);
+  }, [emoji, editor?.commands]);
 
   useEffect(() => {
     if (success) {
       editor?.commands.clearContent();
     }
-  }, [success]);
+  }, [success, editor?.commands]);
 
   return (
     <div className="flex w-full flex-col items-end">

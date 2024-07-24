@@ -10,10 +10,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import { BookmarkIcon, EyeIcon, HeartIcon, Repeat2Icon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Lottie from "react-lottie";
 import { useMutation, useQuery } from "react-query";
-import { UserAvatar } from "../messages/components/messageTile";
+import { UserAvatar } from "../home/components/messageTile";
 import toast from "react-hot-toast";
 
 export default function SinglePollComponent({
@@ -28,7 +28,7 @@ export default function SinglePollComponent({
   );
   const [voteCount, setVoteCount] = useState<number | undefined>(undefined);
   const { data, isLoading, isError } = useQuery(
-    "poll",
+    `poll-${id}`,
     async () => {
       let userDetails = getUserDetail(userId);
       let polLDetails = getPollDetail(id);
@@ -67,10 +67,14 @@ export default function SinglePollComponent({
       },
     },
   );
+  useEffect(() => {
+    if (selectedOption !== undefined && selectedOption !== null) {
+      mutateAsync();
+    }
+  });
 
   const handleOptionClick = (option: number) => {
     setSelectedOption(option);
-    mutateAsync();
   };
 
   if (isError || !data) {
@@ -106,8 +110,8 @@ export default function SinglePollComponent({
                 className={cn(
                   "relative m-2 mb-2 flex min-h-16 w-full cursor-pointer items-center justify-between rounded-sm border border-border bg-background",
                   selectedOption === index
-                    ? "bg-zinc-700/40 ring-2 ring-zinc-500 hover:bg-zinc-800/40"
-                    : "hover:bg-zinc-700/40",
+                    ? "bg-zinc-100/50 ring-2 ring-zinc-300 hover:bg-zinc-100/50 dark:bg-zinc-700/40 dark:hover:bg-zinc-800/40"
+                    : "hover:bg-zinc-200 dark:hover:bg-zinc-700/40",
                 )}
               >
                 {selectedOption === index && (
@@ -115,7 +119,7 @@ export default function SinglePollComponent({
                     initial={{ width: 0 }}
                     animate={{ width: `${result.percentage}%` }}
                     transition={{ duration: 1 }}
-                    className="absolute left-0 top-0 h-full rounded-sm bg-stone-700/50"
+                    className="absolute left-0 top-0 h-full rounded-sm bg-stone-800/10 dark:bg-stone-100/10"
                   ></motion.div>
                 )}
                 <p className="relative z-10 py-3 ps-3">{result.option}</p>

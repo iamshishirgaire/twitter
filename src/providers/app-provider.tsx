@@ -4,6 +4,7 @@ import type React from "react";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "../components/theme-provider";
 import QueryProvider from "./query-provider";
+import NextTopLoader from "nextjs-toploader";
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -14,6 +15,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
         enableSystem
         disableTransitionOnChange
       >
+        <NextTopLoader showSpinner={false} />
         <QueryProvider>
           <Toaster />
           {children}

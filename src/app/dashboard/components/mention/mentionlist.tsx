@@ -7,7 +7,7 @@ import { ReactRenderer } from "@tiptap/react";
 import { SuggestionKeyDownProps, SuggestionProps } from "@tiptap/suggestion";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import tippy, { Instance as TippyInstance } from "tippy.js";
-import { UserAvatar } from "../../messages/components/messageTile";
+import { UserAvatar } from "../../home/components/messageTile";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 
 export type MentionSuggestion = {
@@ -210,3 +210,6 @@ const MentionList = forwardRef<MentionRef, MentionProps>((props, ref) => {
     </div>
   ) : null;
 });
+
+//display name
+MentionList.displayName = "MentionList";

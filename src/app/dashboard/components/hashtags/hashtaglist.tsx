@@ -194,3 +194,6 @@ const MentionList = forwardRef<MentionRef, MentionProps>((props, ref) => {
     </div>
   ) : null;
 });
+
+//display name
+MentionList.displayName = "MentionList";

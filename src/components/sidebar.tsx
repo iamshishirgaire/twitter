@@ -38,11 +38,13 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "./ui/dialog";
+import { Button } from "./ui/button";
+import Image from "next/image";
 
 const SidebarLinks = [
   {
     title: "Home",
-    href: "/dashboard",
+    href: "/dashboard/home",
     icon: HomeIcon,
     activeIcon: HomeIconSolid,
   },
@@ -54,7 +56,7 @@ const SidebarLinks = [
   },
   {
     title: "Notifications",
-    href: "/dashboard/notifications",
+    href: "/dashboard/notifications/all",
     icon: BellIcon,
     activeIcon: BellIconSolid,
   },
@@ -88,29 +90,22 @@ const SidebarLinks = [
 const Sidebar = () => {
   const pathName = usePathname();
 
-  function isActive(href: string) {
-    const isActive =
-      pathName === href ||
-      (href === "/dashboard/messages" &&
-        pathName.startsWith("/dashboard/messages"));
-    return isActive;
-  }
-
   return (
     <div className="flex h-full w-full flex-col items-end justify-center pe-10">
       <div className="flex h-full flex-col gap-4 pt-10">
         <Link
           href={"/dashboard"}
-          className="ms-2 flex h-52 w-16 cursor-pointer items-center justify-center rounded-lg bg-gray-300/20 hover:bg-gray-300/30"
+          className="flex cursor-pointer items-center justify-start ps-10"
         >
-          <p className="font-mono text-3xl font-bold text-foreground">Y</p>
+          <Image src="/twitter.svg" alt="logo" width={50} height={50} />
         </Link>
         {SidebarLinks.map((link) => {
           const isActive =
             pathName === link.href ||
             (link.href === "/dashboard/messages" &&
-              pathName.startsWith("/dashboard/messages"));
-
+              pathName.startsWith("/dashboard/messages")) ||
+            (link.href === "/dashboard/home" &&
+              pathName.startsWith("/dashboard/home"));
           return (
             <Link
               key={link.title}
@@ -136,10 +131,13 @@ const Sidebar = () => {
           );
         })}
         <AlertDialog>
-          <AlertDialogTrigger className="rounded-lg">
-            <div className="w-full rounded-lg bg-primary py-3 text-lg font-semibold text-background hover:bg-primary/90 dark:text-foreground">
-              Tweet
-            </div>
+          <AlertDialogTrigger asChild>
+            <Button
+              size={"default"}
+              className="w-full rounded-3xl bg-primary py-6 text-lg font-semibold text-background hover:bg-primary/90 dark:text-foreground"
+            >
+              Post
+            </Button>
           </AlertDialogTrigger>
           <AlertDialogContent className="top-[300px] m-0 border-none bg-zinc-100 dark:bg-zinc-900">
             <AlertDialogHeader>

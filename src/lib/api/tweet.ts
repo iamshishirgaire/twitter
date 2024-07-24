@@ -14,6 +14,7 @@ export async function getTweets() {
   const res = await api.get<Tweets[]>("/tweet/all");
   return res.data;
 }
+
 export async function postPoll(
   description: string,
   options: {
@@ -62,6 +63,7 @@ export async function getPollDetail(id: string) {
 }
 
 export async function votePoll(id: string, option: number) {
+  console.log(id, option);
   await api.post(`poll/vote`, {
     poll_id: id,
     vote_option: option,

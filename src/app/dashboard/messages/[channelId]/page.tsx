@@ -2,7 +2,6 @@
 import Spinner from "@/components/spinner";
 import { IconButton } from "@/components/ui/IconButton";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import api from "@/lib/api/";
 import Messages from "@/lib/models/Messages";
@@ -12,15 +11,13 @@ import { GifIcon } from "@heroicons/react/24/outline";
 import {
   ImageIcon,
   InfoIcon,
-  Scroll,
   SendHorizonalIcon,
   SmileIcon,
 } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { ChannelHeader } from "../components/messageChannelTile";
-import { UserAvatar } from "../components/messageTile";
-import React from "react";
+import { UserAvatar } from "../../home/components/messageTile";
 
 export default function MessagePage({
   params,
@@ -94,7 +91,7 @@ export default function MessagePage({
   );
 }
 
-export const MessageContainer = ({ channelId }: { channelId: string }) => {
+const MessageContainer = ({ channelId }: { channelId: string }) => {
   const { isLoading, data, isError } = useQuery(
     `channel-chats-${channelId}`,
     async () => {
@@ -127,8 +124,8 @@ export const MessageContainer = ({ channelId }: { channelId: string }) => {
     return <div className="h-full w-full">Failed to load messages</div>;
   }
   return (
-    <div className="flex h-full w-full flex-col-reverse overflow-auto bg-gray-800 custom-scrollbar">
-      {data?.map((e) => {
+    <div className="flex h-full w-full flex-col-reverse overflow-auto custom-scrollbar">
+      {/* {data?.map((e) => {
         return (
           <div
             key={e.id}
@@ -161,7 +158,7 @@ export const MessageContainer = ({ channelId }: { channelId: string }) => {
             }
           </div>
         );
-      })}
+      })} */}
       {data?.map((e) => {
         return (
           <div

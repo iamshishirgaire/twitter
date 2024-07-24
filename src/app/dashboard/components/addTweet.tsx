@@ -11,10 +11,11 @@ import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation } from "react-query";
 import { Button } from "../../../components/ui/button";
-import { UserAvatar } from "../messages/components/messageTile";
+import { UserAvatar } from "../home/components/messageTile";
 import { FilePreviews } from "./file-preview";
 import PollComponent, { PollOption } from "./create-poll";
 import TweetInput from "./tweet-input";
+import Spacer from "@/components/spacer";
 
 const AddPost = () => {
   const [tweet, setTweet] = useState<string | undefined>();
@@ -74,6 +75,8 @@ const AddPost = () => {
   };
   return (
     <div className="flex flex-col">
+      <Spacer height={70} />
+
       <>
         <div className="flex gap-2">
           <UserAvatar userId={userId ?? ""} />
@@ -152,7 +155,7 @@ const AddPost = () => {
             }
           }}
         >
-          {isLoading ? "Uploading" : "Tweet"}
+          {isLoading ? "Uploading" : "Post"}
         </Button>
       </div>
     </div>
