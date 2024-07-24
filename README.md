@@ -1,12 +1,9 @@
-# Twitty
-
-The ultimate twitter clone.
-
+# Twitter Clone
 ## Techstack Used
 
-- NextJs
-- NestJs
 - Typescript
+- NextJs
+- Bun and Hono
 - PostgreSQL
 - Redis
 - React Query
@@ -17,6 +14,11 @@ The ultimate twitter clone.
 - [x] Initial Setup
 - [x] Setup ShadcnUi
 - [x] Google Authentication
-- [ ] Initial Ui Layout
-- [ ] Feeds
+- [x] Initial Feed Ui Layout
+- [x] Add tweet
+- [x] Add polls
+- [x] Upload medias
+- [x] Initial Messages Ui
+- [x] Initial Notifications Ui
 - [ ] Profile
+- [x] Error Management (w sentry)

@@ -22,6 +22,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.1",
     "@react-oauth/google": "0.12.1",
+    "@sentry/nextjs": "^8",
     "@t3-oss/env-nextjs": "^0.10.1",
     "@tiptap/extension-character-count": "^2.4.0",
     "@tiptap/extension-document": "^2.4.0",
