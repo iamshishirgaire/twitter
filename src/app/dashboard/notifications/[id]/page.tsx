@@ -18,7 +18,7 @@ const NotificationsPage = ({
     `notification-${params.id}`,
     async () => {
       const notification = await api.get<Notifications[]>(
-        `/notification/${params.id}`,
+        `/notification?type=${params.id}&page=0&page_size=20`,
       );
       return notification.data;
     },

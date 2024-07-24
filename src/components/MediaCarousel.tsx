@@ -35,10 +35,8 @@ const MediaCarousel = ({ mediaUrls }: { mediaUrls: string[] }) => {
                         alt="Multiple Images"
                         width={400}
                         height={400}
-                        objectFit="cover"
-                        priority
-                        style={{ height: "400px", width: "400px" }}
-                        className="aspect-square rounded-sm object-cover"
+                        style={{ height: "auto", width: "auto" }}
+                        className="aspect-square rounded-sm"
                       />
                     )}
                   </Link>

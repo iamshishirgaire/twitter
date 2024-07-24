@@ -23,7 +23,7 @@
 - [ ] Profile
 - [x] Error Management (w sentry)
   
-  ## How to run the project
+## How to run the project
     - Clone the project
     - Run `pnpm install`
     - Run `pnpm dev`

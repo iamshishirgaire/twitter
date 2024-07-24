@@ -97,7 +97,13 @@ const Sidebar = () => {
           href={"/dashboard"}
           className="flex cursor-pointer items-center justify-start ps-10"
         >
-          <Image src="/twitter.svg" alt="logo" width={50} height={50} />
+          <Image
+            src="/twitter.svg"
+            alt="logo"
+            priority
+            width={50}
+            height={50}
+          />
         </Link>
         {SidebarLinks.map((link) => {
           const isActive =

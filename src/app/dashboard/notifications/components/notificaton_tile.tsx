@@ -14,11 +14,11 @@ const NotificationTile = ({
     <Link
       href={
         notification.post_type === "tweet"
-          ? `/dashboard/twees/${notification.tweet_id}`
+          ? `/dashboard/tweets/${notification.tweet_id}`
           : `/dashboard/polls/${notification.poll_id}`
       }
       className={cn(
-        "mx-1 my-1 flex items-center gap-3 rounded-md p-3 transition-colors hover:bg-muted",
+        "m-3 flex items-center gap-3 rounded-md p-3 transition-colors hover:bg-muted",
       )}
     >
       <UserAvatar userId={notification.user_id} />

@@ -27,7 +27,7 @@ export const DynamicGrid: React.FC<DynamicGridProps> = ({ imageUrls }) => {
                 height={382}
                 priority
                 className="rounded-sm"
-                style={{ height: "384px", width: "auto", objectFit: "cover" }}
+                style={{ height: "auto", width: "auto" }}
               />
             )}
           </div>

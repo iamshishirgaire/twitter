@@ -13,7 +13,7 @@ export const GoogleOauth = () => {
 
   useEffect(() => {
     getCurrentUser();
-  }, []);
+  }, [getCurrentUser]);
   if (user || loading) return null;
 
   return (
