@@ -87,11 +87,16 @@ const SidebarLinks = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ isMobile }: { isMobile?: boolean }) => {
   const pathName = usePathname();
 
   return (
-    <div className="flex h-full w-full flex-col items-end justify-center pe-10">
+    <div
+      className={cn(
+        "flex h-full w-full flex-col items-end justify-center pe-10",
+        isMobile && "items-start pe-3",
+      )}
+    >
       <div className="flex h-full flex-col gap-4 pt-10">
         <Link
           href={"/dashboard"}

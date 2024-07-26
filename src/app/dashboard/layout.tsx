@@ -1,11 +1,10 @@
 import Sidebar from "@/components/sidebar";
 import React from "react";
-import HomeNavBar from "./home/components/home-nav-bar";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="grid h-screen w-screen grid-cols-[650px_1fr] bg-background">
-      <div className="hlimit-full border-e border-border pe-10">
+    <main className="grid h-screen w-screen grid-cols-1 bg-background xl:grid-cols-[2fr_4fr]">
+      <div className="hidden h-full border-e border-border pe-10 xl:flex">
         <Sidebar></Sidebar>
       </div>
       {children}
