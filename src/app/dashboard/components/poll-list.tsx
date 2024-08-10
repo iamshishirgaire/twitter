@@ -9,9 +9,13 @@ interface PollListProps {
   user_id: string;
 }
 export function PollList({ poll }: { poll: PollListProps[] }) {
-  const { data, isLoading, isError } = useQuery("pollIds", async () => {
-    return await getPollIds();
-  });
+  const { data, isLoading, isError } = useQuery(
+    "pollIds",
+    async () => {
+      return await getPollIds();
+    },
+    {},
+  );
   if (isError) {
     return null;
   }

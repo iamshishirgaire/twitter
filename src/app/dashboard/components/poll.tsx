@@ -71,7 +71,8 @@ export default function SinglePollComponent({
     if (selectedOption !== undefined && selectedOption !== null) {
       mutateAsync();
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOption]);
 
   const handleOptionClick = (option: number) => {
     setSelectedOption(option);

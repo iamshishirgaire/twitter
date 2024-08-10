@@ -40,6 +40,7 @@ import {
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 const SidebarLinks = [
   {
@@ -143,10 +144,7 @@ const Sidebar = ({ isMobile }: { isMobile?: boolean }) => {
         })}
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button
-              size={"default"}
-              className="w-full rounded-3xl bg-primary py-6 text-lg font-semibold text-background hover:bg-primary/90 dark:text-foreground"
-            >
+            <Button className="w-full rounded-3xl bg-primary py-6 text-lg font-semibold text-background hover:bg-primary/90 focus-visible:ring-blue-400 dark:text-foreground">
               Post
             </Button>
           </AlertDialogTrigger>
@@ -165,9 +163,10 @@ const Sidebar = ({ isMobile }: { isMobile?: boolean }) => {
               <ProfileTile border />
             </DialogTrigger>
             <DialogContent className="border-none bg-zinc-100 dark:bg-zinc-900 sm:max-w-[450px]">
-              <DialogHeader>
+              <DialogHeader>Profile</DialogHeader>
+              <DialogTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200">
                 <ProfileTile />
-              </DialogHeader>
+              </DialogTitle>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-[100px_1fr] items-center gap-4">
                   <div className="text-sm font-medium text-gray-500 dark:text-gray-400">

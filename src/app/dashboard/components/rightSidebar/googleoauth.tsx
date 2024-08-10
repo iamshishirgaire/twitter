@@ -13,7 +13,8 @@ export const GoogleOauth = () => {
 
   useEffect(() => {
     getCurrentUser();
-  }, [getCurrentUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   if (user || loading) return null;
 
   return (
@@ -27,6 +28,7 @@ export const GoogleOauth = () => {
         type="standard"
         useOneTap
         onSuccess={(reponse) => {
+          console.log(reponse);
           if (!reponse.credential) {
             toast.error("Failed to login");
             return;
